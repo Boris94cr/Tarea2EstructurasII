@@ -24,7 +24,8 @@ class Cache{
 		double byte_offset;
 		int tag;
 	    	int index;
-	    	int **cache;
+	    	int *cache;
+	    	int *flags;
 	    	int fin_index;
 	    	double tamano_tag;
 	    	int hits =0;
@@ -64,30 +65,26 @@ void Cache::setCache(){
 	//cout << "tag: "<< tag << endl;
 }
 
-//crea una matriz con el tamaño correspondiente a la cantidad de sets y la asociatividad
+//crea una cache y una matriz de estados con el tamaño correspondiente a la cantidad de sets y la asociatividad
 void Cache::createCache(){
 	
-	cache = new int *[numero_de_sets];
+	cache = new int [numero_de_sets];
 	    
-	for(int i = 0; i < numero_de_sets; i++){
-		cache[i] = new int[asociatividad];
-	}
-	
-	for(int i = 0; i < numero_de_sets; i++){
-		for(int j = 0; j < asociatividad; j++){
-			cache[i][j] = 0;
-		}
-	}
+	flags = new int [numero_de_sets];
+	    
 }
 
 //se encarga de poner en cero todos los bloques del cache para "limpiarla"
 void Cache::limpiarCache() {
     	
     	//inicializa la matriz en ceros
-   	for(int i = 0; i < numero_de_sets; i++){
-        	for(int j = 0; j < asociatividad; j++){
-            		cache[i][j] = 0;
-        	}
+   	for(int i = 0; i < numero_de_sets; i++){        	
+            	cache[i] = 0;
+    	}
+    	
+    	//Se ponen todas las banderas en invalid
+    	for(int i = 0; i < numero_de_sets; i++){        	
+            	flags[i] = 3;        	
     	}
 }
 
@@ -139,14 +136,14 @@ string Cache::Hex_String_to_Bin_String (string sHex){
 }
 
 //Simulacion		
-void Cache::simulacion(){
+/*void Cache::simulacion(){
 	
-	string address,b;
+	string address,accion;
 	
 	ifstream memoria("aligned.trace");	//Leer el archivo en el objeto memoria
 	
 	//Recorrer la memoria
-	while(memoria >> address >> b){
+	while(memoria >> address >> accion){
 		int lugar=0;
 		calcularTag_Index(address);
 		
@@ -173,4 +170,4 @@ void Cache::simulacion(){
 	int miss_rate = (misses*100)/(hits+misses);
 
 	cout << "Miss rate: " << miss_rate << "%" << endl << endl;
-}
+}*/
