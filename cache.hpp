@@ -14,7 +14,7 @@ using namespace std;
 
 class Cache{
 
-	private:
+	public:
 		//diferentes variables necesarias hasta el momento para hacer la descripción de la cache
 	 	int tamano_cache;
 		int tamano_bloque;
